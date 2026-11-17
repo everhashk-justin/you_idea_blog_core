@@ -24,3 +24,7 @@ sync-blog-assets = "sync_to_blogs:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["blog_core*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

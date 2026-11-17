@@ -1,0 +1,90 @@
+[
+  {
+    "key": "02",
+    "query": "컴퓨터는 어떻게 작동하는가",
+    "file": "posts/02_cs_cpu_and_memory.md",
+    "post_id": "60",
+    "edit_url": "https://softwin.tistory.com/manage/post/60",
+    "matched_title": "컴퓨터는 어떻게 작동하는가? - CPU와 메모리, 그리고 폰 노이만 구조"
+  },
+  {
+    "key": "03",
+    "query": "프로그래밍 언어란 무엇인가",
+    "file": "posts/03_pl_what_is_language.md",
+    "post_id": "62",
+    "edit_url": "https://softwin.tistory.com/manage/post/62",
+    "matched_title": "프로그래밍 언어란 무엇인가? - 컴퓨터와 대화하는 법"
+  },
+  {
+    "key": "04",
+    "query": "인터넷은 어떻게 작동하는가",
+    "file": "posts/04_net_osi_and_http.md",
+    "post_id": "63",
+    "edit_url": "https://softwin.tistory.com/manage/post/63",
+    "matched_title": "인터넷은 어떻게 작동하는가? - OSI 7계층의 비밀"
+  },
+  {
+    "key": "05",
+    "query": "서버란 무엇인가",
+    "file": "posts/05_be_what_is_server.md",
+    "post_id": "64",
+    "edit_url": "https://softwin.tistory.com/manage/post/64",
+    "matched_title": "서버란 무엇인가? - 백엔드 개발의 첫걸음"
+  },
+  {
+    "key": "06",
+    "query": "브라우저는 어떻게 웹페이지를 그리는가",
+    "file": "posts/06_fe_browser_rendering.md",
+    "post_id": "65",
+    "edit_url": "https://softwin.tistory.com/manage/post/65",
+    "matched_title": "브라우저는 어떻게 웹페이지를 그리는가? - 렌더링 파이프라인의 원리"
+  },
+  {
+    "key": "07",
+    "query": "데이터베이스란 무엇인가",
+    "file": "posts/07_db_what_is_database.md",
+    "post_id": "66",
+    "edit_url": "https://softwin.tistory.com/manage/post/66",
+    "matched_title": "데이터베이스란 무엇인가? - 데이터를 체계적으로 저장하는 방법"
+  },
+  {
+    "key": "08",
+    "query": "클라우드란 무엇인가",
+    "file": "posts/08_cloud_what_is_cloud.md",
+    "post_id": "67",
+    "edit_url": "https://softwin.tistory.com/manage/post/67",
+    "matched_title": "클라우드란 무엇인가? - 서버를 빌려쓰는 시대"
+  },
+  {
+    "key": "09",
+    "query": "비밀번호는 어떻게 저장되는가",
+    "file": "posts/09_sec_password_and_hash.md",
+    "post_id": "68",
+    "edit_url": "https://softwin.tistory.com/manage/post/68",
+    "matched_title": "비밀번호는 어떻게 저장되는가? - 해시와 암호화의 기초"
+  },
+  {
+    "key": "10",
+    "query": "AI는 어떻게 학습하는가",
+    "file": "posts/10_ai_how_ml_learns.md",
+    "post_id": "69",
+    "edit_url": "https://softwin.tistory.com/manage/post/69",
+    "matched_title": "AI는 어떻게 학습하는가? - 머신러닝의 기초 원리"
+  },
+  {
+    "key": "11",
+    "query": "좋은 코드란 무엇인가",
+    "file": "posts/11_se_clean_code.md",
+    "post_id": "70",
+    "edit_url": "https://softwin.tistory.com/manage/post/70",
+    "matched_title": "좋은 코드란 무엇인가? - 클린 코드와 SOLID 원칙"
+  },
+  {
+    "key": "12",
+    "query": "임베디드 시스템이란 무엇인가",
+    "file": "posts/12_emb_what_is_embedded.md",
+    "post_id": "71",
+    "edit_url": "https://softwin.tistory.com/manage/post/71",
+    "matched_title": "임베디드 시스템이란 무엇인가? - 마이크로컨트롤러와 IoT의 세계"
+  }
+]

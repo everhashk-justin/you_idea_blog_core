@@ -1,0 +1,232 @@
+[
+  {
+    "id": 0,
+    "file": "posts/01_session_and_cookie.md",
+    "category": "네트워크 & 웹 통신 기술",
+    "title": "[웹 기술의 본질] 쿠키와 세션의 모든 것: 왜 우리는 매번 다시 로그인하지 않아도 될까?",
+    "scheduled_date": "2026-09-20",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 1,
+    "file": "posts/02_cs_cpu_and_memory.md",
+    "category": "컴퓨터 과학 핵심 기초",
+    "title": "컴퓨터는 어떻게 작동하는가? - CPU와 메모리, 그리고 폰 노이만 구조",
+    "scheduled_date": "2026-09-20",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 2,
+    "file": "posts/03_pl_what_is_language.md",
+    "category": "프로그래밍 언어 & 패러다임",
+    "title": "프로그래밍 언어란 무엇인가? - 컴퓨터와 대화하는 법",
+    "scheduled_date": "2026-09-21",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 3,
+    "file": "posts/04_net_osi_and_http.md",
+    "category": "네트워크 & 웹 통신 기술",
+    "title": "인터넷은 어떻게 작동하는가? - OSI 7계층의 비밀",
+    "scheduled_date": "2026-09-22",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 4,
+    "file": "posts/05_be_what_is_server.md",
+    "category": "백엔드 & 서버 아키텍처",
+    "title": "서버란 무엇인가? - 백엔드 개발의 첫걸음",
+    "scheduled_date": "2026-09-23",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 5,
+    "file": "posts/06_fe_browser_rendering.md",
+    "category": "프론트엔드 & 클라이언트",
+    "title": "브라우저는 어떻게 웹페이지를 그리는가? - 렌더링 파이프라인의 원리",
+    "scheduled_date": "2026-09-24",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 6,
+    "file": "posts/07_db_what_is_database.md",
+    "category": "데이터베이스 & 스토리지",
+    "title": "데이터베이스란 무엇인가? - 데이터를 체계적으로 저장하는 방법",
+    "scheduled_date": "2026-09-25",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 7,
+    "file": "posts/08_cloud_what_is_cloud.md",
+    "category": "클라우드, DevOps & 인프라",
+    "title": "클라우드란 무엇인가? - 서버를 빌려쓰는 시대",
+    "scheduled_date": "2026-09-26",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 8,
+    "file": "posts/09_sec_password_and_hash.md",
+    "category": "보안 & 인증 기술",
+    "title": "비밀번호는 어떻게 저장되는가? - 해시와 암호화의 기초",
+    "scheduled_date": "2026-09-27",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 9,
+    "file": "posts/10_ai_how_ml_learns.md",
+    "category": "AI, 머신러닝 & 빅데이터",
+    "title": "AI는 어떻게 학습하는가? - 머신러닝의 기초 원리",
+    "scheduled_date": "2026-09-28",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 10,
+    "file": "posts/11_se_clean_code.md",
+    "category": "소프트웨어 공학 & 아키텍처",
+    "title": "좋은 코드란 무엇인가? - 클린 코드와 SOLID 원칙",
+    "scheduled_date": "2026-09-29",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 11,
+    "file": "posts/12_emb_what_is_embedded.md",
+    "category": "임베디드 & 차세대 기술",
+    "title": "임베디드 시스템이란 무엇인가? - 마이크로컨트롤러와 IoT의 세계",
+    "scheduled_date": "2026-09-30",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-09-20"
+  },
+  {
+    "id": 12,
+    "file": "posts/13_pl_oop_paradigm.md",
+    "category": "프로그래밍 언어 & 패러다임",
+    "title": "객체지향(OOP)이란 무엇인가? - 레고 블록처럼 소프트웨어를 조립하는 법",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 13,
+    "file": "posts/14_cs_process_and_thread.md",
+    "category": "컴퓨터 과학 핵심 기초",
+    "title": "프로세스와 스레드의 차이 - 컴퓨터는 어떻게 수많은 앱을 동시에 실행할까?",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 14,
+    "file": "posts/15_net_http_and_https.md",
+    "category": "네트워크 & 웹 통신 기술",
+    "title": "HTTP와 HTTPS의 모든 것 - 자물쇠 아이콘 하나가 우리 정보를 지키는 원리",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 15,
+    "file": "posts/16_be_rest_api.md",
+    "category": "백엔드 & 서버 아키텍처",
+    "title": "API와 RESTful의 비밀 - 서버와 클라이언트는 어떻게 약속하고 대화하는가?",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 16,
+    "file": "posts/17_fe_virtual_dom_react.md",
+    "category": "프론트엔드 & 클라이언트",
+    "title": "가상 DOM(Virtual DOM)과 React의 혁명 - 화면이 깜빡이지 않고 초고속으로 바뀌는 비밀",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 17,
+    "file": "posts/18_db_rdbms_vs_nosql.md",
+    "category": "데이터베이스 & 스토리지",
+    "title": "관계형 DB(RDBMS) vs NoSQL - 언제 표(Table)를 쓰고 언제 서류봉투(JSON)를 써야 할까?",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 18,
+    "file": "posts/19_cloud_docker_container.md",
+    "category": "클라우드, DevOps & 인프라",
+    "title": "도커(Docker)와 컨테이너 혁명 - '내 컴퓨터에선 잘 되는데 왜 서버에선 안 되지?'를 해결한 기술",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 19,
+    "file": "posts/20_sec_jwt_oauth.md",
+    "category": "보안 & 인증 기술",
+    "title": "JWT와 OAuth 2.0의 원리 - 구글·카카오 1초 간편 로그인은 어떻게 내 정보를 지킬까?",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 20,
+    "file": "posts/21_ai_deep_learning_ann.md",
+    "category": "AI, 머신러닝 & 빅데이터",
+    "title": "인공신경망(ANN)과 딥러닝 - 기계는 어떻게 인간의 뇌처럼 생각하게 되었을까?",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 21,
+    "file": "posts/22_se_design_patterns.md",
+    "category": "소프트웨어 공학 & 아키텍처",
+    "title": "디자인 패턴(Design Pattern) 핵심 정리 - 전 세계 천재 개발자들의 문제 해결 족보",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  },
+  {
+    "id": 22,
+    "file": "posts/23_emb_iot_and_mqtt.md",
+    "category": "임베디드 & 차세대 기술",
+    "title": "사물인터넷(IoT)과 MQTT 프로토콜 - 스마트홈 센서들은 어떻게 배터리 걱정 없이 대화할까?",
+    "scheduled_date": "2026-10-02",
+    "status": "published",
+    "visibility": "public",
+    "published_at": "2026-10-02"
+  }
+]

@@ -1,0 +1,152 @@
+[
+  {
+    "title": "[예약]109. 임베디드 리눅스 디바이스 트리(Device Tree) - 하드웨어 부품 지도를 OS에 건네주는 방법",
+    "editUrl": "https://softwin.tistory.com/manage/post/169?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "169",
+    "fullText": "선택 안됨 [예약]109. 임베디드 리눅스 디바이스 트리(Device Tree) - 하드웨어 부품 지도를 OS에 건네주는 방법 임베디드 & 차세대 기술arthurdaddy2026-11-29 19:07"
+  },
+  {
+    "title": "[예약]108. Triton 추론 서버 다이내믹 배칭 큐잉 지연 해결 - P99 지연 시간 및 처리량 최적화",
+    "editUrl": "https://softwin.tistory.com/manage/post/168?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "168",
+    "fullText": "선택 안됨 [예약]108. Triton 추론 서버 다이내믹 배칭 큐잉 지연 해결 - P99 지연 시간 및 처리량 최적화 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-29 11:32"
+  },
+  {
+    "title": "[예약]107. 도메인 주도 설계(DDD)와 바운디드 컨텍스트 - 복잡한 소프트웨어의 영역 분할과 언어의 일치",
+    "editUrl": "https://softwin.tistory.com/manage/post/167?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "167",
+    "fullText": "선택 안됨 [예약]107. 도메인 주도 설계(DDD)와 바운디드 컨텍스트 - 복잡한 소프트웨어의 영역 분할과 언어의 일치 소프트웨어 공학 & 아키텍처arthurdaddy2026-11-28 18:12"
+  },
+  {
+    "title": "[예약]106. 쿠버네티스 GPU 스케줄링 장애와 NVIDIA 드라이버 버전 불일치 - NVML 에러 해결",
+    "editUrl": "https://softwin.tistory.com/manage/post/166?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "166",
+    "fullText": "선택 안됨 [예약]106. 쿠버네티스 GPU 스케줄링 장애와 NVIDIA 드라이버 버전 불일치 - NVML 에러 해결 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-28 10:41"
+  },
+  {
+    "title": "[예약]105. LLM 인간 피드백 강화학습(RLHF)과 DPO - 인공지능에게 예의범절과 정렬을 가르치는 원리",
+    "editUrl": "https://softwin.tistory.com/manage/post/165?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "165",
+    "fullText": "선택 안됨 [예약]105. LLM 인간 피드백 강화학습(RLHF)과 DPO - 인공지능에게 예의범절과 정렬을 가르치는 원리 AI, 머신러닝 & 빅데이터arthurdaddy2026-11-27 19:28"
+  },
+  {
+    "title": "[예약]104. ONNX Runtime TensorRT 다이내믹 셰이프 직렬화 실패 해결 - Optimization Profile 매핑",
+    "editUrl": "https://softwin.tistory.com/manage/post/164?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "164",
+    "fullText": "선택 안됨 [예약]104. ONNX Runtime TensorRT 다이내믹 셰이프 직렬화 실패 해결 - Optimization Profile 매핑 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-27 11:18"
+  },
+  {
+    "title": "[예약]103. 세션 vs JWT 토큰 인증의 본질 - 놀이공원 자유이용권과 호텔 체크인 명부의 차이",
+    "editUrl": "https://softwin.tistory.com/manage/post/163?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "163",
+    "fullText": "선택 안됨 [예약]103. 세션 vs JWT 토큰 인증의 본질 - 놀이공원 자유이용권과 호텔 체크인 명부의 차이 보안 & 인증 기술arthurdaddy2026-11-26 18:37"
+  },
+  {
+    "title": "[예약]102. LLM 자율 에이전트 무한 도구 호출 루프 방지 - LangGraph 재귀 제한과 멱등성 가드레일",
+    "editUrl": "https://softwin.tistory.com/manage/post/162?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "162",
+    "fullText": "선택 안됨 [예약]102. LLM 자율 에이전트 무한 도구 호출 루프 방지 - LangGraph 재귀 제한과 멱등성 가드레일 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-26 12:49"
+  },
+  {
+    "title": "[예약]101. 쿠버네티스 CNI와 오버레이 네트워크 - 서로 다른 서버의 파드가 통신하는 원리",
+    "editUrl": "https://softwin.tistory.com/manage/post/161?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "161",
+    "fullText": "선택 안됨 [예약]101. 쿠버네티스 CNI와 오버레이 네트워크 - 서로 다른 서버의 파드가 통신하는 원리 클라우드, DevOps & 인프라arthurdaddy2026-11-25 17:46"
+  },
+  {
+    "title": "[예약]100. RAG 벡터 검색 지연 스파이크 해결 - Milvus HNSW M/efConstruction 파라미터 튜닝",
+    "editUrl": "https://softwin.tistory.com/manage/post/160?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "160",
+    "fullText": "선택 안됨 [예약]100. RAG 벡터 검색 지연 스파이크 해결 - Milvus HNSW M/efConstruction 파라미터 튜닝 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-25 10:38"
+  },
+  {
+    "title": "[예약]99. B-Tree 인덱스의 마법 - 데이터 1억 건 중 단 3번 만에 원하는 값을 찾는 원리",
+    "editUrl": "https://softwin.tistory.com/manage/post/159?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "159",
+    "fullText": "선택 안됨 [예약]99. B-Tree 인덱스의 마법 - 데이터 1억 건 중 단 3번 만에 원하는 값을 찾는 원리 데이터베이스 & 스토리지arthurdaddy2026-11-24 19:14"
+  },
+  {
+    "title": "[예약]98. vLLM PagedAttention KV 캐시 고갈 및 GPU OOM 방어 - 동시 요청 폭증 시 메모리 분할 최적화",
+    "editUrl": "https://softwin.tistory.com/manage/post/158?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "158",
+    "fullText": "선택 안됨 [예약]98. vLLM PagedAttention KV 캐시 고갈 및 GPU OOM 방어 - 동시 요청 폭증 시 메모리 분할 최적화 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-24 11:27"
+  },
+  {
+    "title": "[예약]97. 가상 돔(Virtual DOM)과 재조정(Reconciliation) - 브라우저가 화면을 그리는 진짜 원리",
+    "editUrl": "https://softwin.tistory.com/manage/post/157?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "157",
+    "fullText": "선택 안됨 [예약]97. 가상 돔(Virtual DOM)과 재조정(Reconciliation) - 브라우저가 화면을 그리는 진짜 원리 프론트엔드 & 클라이언트arthurdaddy2026-11-23 18:23"
+  },
+  {
+    "title": "[예약]96. PyTorch CUDA OOM 메모리 단편화 해결 - max_split_size_mb 튜닝과 캐싱 할당자 최적화",
+    "editUrl": "https://softwin.tistory.com/manage/post/156?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "156",
+    "fullText": "선택 안됨 [예약]96. PyTorch CUDA OOM 메모리 단편화 해결 - max_split_size_mb 튜닝과 캐싱 할당자 최적화 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-23 10:14"
+  },
+  {
+    "title": "[예약]95. 대규모 시스템을 위한 이벤트 기반 아키텍처(EDA)와 CQRS 패턴의 핵심 원리",
+    "editUrl": "https://softwin.tistory.com/manage/post/155?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D1",
+    "postId": "155",
+    "fullText": "선택 안됨 [예약]95. 대규모 시스템을 위한 이벤트 기반 아키텍처(EDA)와 CQRS 패턴의 핵심 원리 백엔드 & 서버 아키텍처arthurdaddy2026-11-22 18:37"
+  },
+  {
+    "title": "[예약]94. AWS S3 503 SlowDown 스로틀링 장애 - 대량 요청 시 접두사 파티셔닝(Prefix Partitioning) 최적화",
+    "editUrl": "https://softwin.tistory.com/manage/post/154?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "154",
+    "fullText": "선택 안됨 [예약]94. AWS S3 503 SlowDown 스로틀링 장애 - 대량 요청 시 접두사 파티셔닝(Prefix Partitioning) 최적화 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-22 10:29"
+  },
+  {
+    "title": "[예약]93. 실시간 웹 통신 아키텍처 - 웹소켓(WebSocket)과 SSE(Server-Sent Events)의 선택 기준",
+    "editUrl": "https://softwin.tistory.com/manage/post/153?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "153",
+    "fullText": "선택 안됨 [예약]93. 실시간 웹 통신 아키텍처 - 웹소켓(WebSocket)과 SSE(Server-Sent Events)의 선택 기준 네트워크 & 웹 통신 기술arthurdaddy2026-11-21 18:08"
+  },
+  {
+    "title": "[예약]92. 쿠버네티스 CoreDNS 5초 지연 장애 - ndots:5 검색 도메인 참사와 NodeLocal DNS 캐시 해결책",
+    "editUrl": "https://softwin.tistory.com/manage/post/152?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "152",
+    "fullText": "선택 안됨 [예약]92. 쿠버네티스 CoreDNS 5초 지연 장애 - ndots:5 검색 도메인 참사와 NodeLocal DNS 캐시 해결책 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-21 11:15"
+  },
+  {
+    "title": "[예약]91. 운영체제 가상 메모리와 페이지 폴트(Page Fault) - TLB와 페이징의 심층 원리",
+    "editUrl": "https://softwin.tistory.com/manage/post/151?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "151",
+    "fullText": "선택 안됨 [예약]91. 운영체제 가상 메모리와 페이지 폴트(Page Fault) - TLB와 페이징의 심층 원리 컴퓨터 과학 핵심 기초arthurdaddy2026-11-20 17:53"
+  },
+  {
+    "title": "[예약]90. JVM GC Pause 세이프포인트 지연 장애 - G1GC에서 Generational ZGC로의 튜닝 여정",
+    "editUrl": "https://softwin.tistory.com/manage/post/150?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "150",
+    "fullText": "선택 안됨 [예약]90. JVM GC Pause 세이프포인트 지연 장애 - G1GC에서 Generational ZGC로의 튜닝 여정 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-20 10:48"
+  },
+  {
+    "title": "[예약]89. Rust 소유권(Ownership)과 빌림 검사기(Borrow Checker) - GC 없는 안전한 메모리 관리",
+    "editUrl": "https://softwin.tistory.com/manage/post/149?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "149",
+    "fullText": "선택 안됨 [예약]89. Rust 소유권(Ownership)과 빌림 검사기(Borrow Checker) - GC 없는 안전한 메모리 관리 프로그래밍 언어 & 패러다임arthurdaddy2026-11-19 18:44"
+  },
+  {
+    "title": "[예약]88. Go 고루틴(Goroutine) 메모리 누수 장애 - 버퍼 없는 채널 데드락과 pprof 추적",
+    "editUrl": "https://softwin.tistory.com/manage/post/148?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "148",
+    "fullText": "선택 안됨 [예약]88. Go 고루틴(Goroutine) 메모리 누수 장애 - 버퍼 없는 채널 데드락과 pprof 추적 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-19 11:25"
+  },
+  {
+    "title": "[예약]87. RTOS(실시간 운영체제) 선점형 스케줄링의 원리 - 마이크로초(μs) 단위의 데드라인 제어",
+    "editUrl": "https://softwin.tistory.com/manage/post/147?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "147",
+    "fullText": "선택 안됨 [예약]87. RTOS(실시간 운영체제) 선점형 스케줄링의 원리 - 마이크로초(μs) 단위의 데드라인 제어 임베디드 & 차세대 기술arthurdaddy2026-11-18 18:19"
+  },
+  {
+    "title": "[예약]86. 리눅스 서버 TIME_WAIT 소켓 고갈 장애 - tcp_tw_reuse 설정과 포트 고갈(EADDRNOTAVAIL) 해결기",
+    "editUrl": "https://softwin.tistory.com/manage/post/146?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "146",
+    "fullText": "선택 안됨 [예약]86. 리눅스 서버 TIME_WAIT 소켓 고갈 장애 - tcp_tw_reuse 설정과 포트 고갈(EADDRNOTAVAIL) 해결기 실무 장애 트러블슈팅 (Post-Mortem)arthurdaddy2026-11-18 10:37"
+  },
+  {
+    "title": "[예약]85. 클린 아키텍처(Clean Architecture)와 의존성 역전 원칙 - 변하는 세부사항과 불변의 도메인",
+    "editUrl": "https://softwin.tistory.com/manage/post/145?returnURL=https%3A%2F%2Fsoftwin.tistory.com%2Fmanage%2Fposts%3Fpage%3D2",
+    "postId": "145",
+    "fullText": "선택 안됨 [예약]85. 클린 아키텍처(Clean Architecture)와 의존성 역전 원칙 - 변하는 세부사항과 불변의 도메인 소프트웨어 공학 & 아키텍처arthurdaddy2026-11-17 17:41"
+  }
+]
