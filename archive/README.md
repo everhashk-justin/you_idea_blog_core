@@ -42,6 +42,9 @@
      - `posts/naver_solidlog_01.txt`, `posts/naver_infopiece_01.txt`: 네이버 포스트 초기 텍스트 초안
      - `posts_dev/02_postgres_deadlock_troubleshooting.md`, `posts_dev/03_kubernetes_pod_eviction_ephemeral_storage.md`: 개발 블로그 레포 분리 이전 초기 드래프트 원고
 
+6. **`screenshots/` (127개 파일)**
+   - 과거 티스토리 에디터 자동화, 로그인, 마크다운 주입 및 발행 과정에서 발생한 디버깅 및 실행 상태 캡처 이미지 전량.
+
 ---
 
 ## 🔒 격리 및 보존 원칙
