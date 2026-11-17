@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "you-idea-blog-core"
+version = "1.0.0"
+description = "Centralized core architecture for multi-blog ecosystem: plugin rule registry, pan-zoom lightbox assets, database and analytics."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "IdeaSpot360 Team" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.scripts]
+blog-gatekeeper = "blog_core.engine.gatekeeper:main"
+sync-blog-assets = "sync_to_blogs:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["blog_core*"]
