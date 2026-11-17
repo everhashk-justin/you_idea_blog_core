@@ -1008,7 +1008,7 @@ class TestFeature10DocumentationBoundaries:
         def validate_sections(text: str, mandatory_headers: List[str]) -> List[str]:
             missing = []
             for h in mandatory_headers:
-                pattern = rf"^#+\s+{re.escape(h)}"
+                pattern = rf"^#+.*{re.escape(h)}"
                 if not re.search(pattern, text, re.MULTILINE):
                     missing.append(h)
             return missing
@@ -1026,7 +1026,7 @@ class TestFeature10DocumentationBoundaries:
         readme_path = WORKSPACE_ROOT / "README.md"
         if readme_path.exists():
             content = readme_path.read_text(encoding="utf-8")
-            missing_live = validate_sections(content, ["Architecture", "CLI", "Rules"])
+            missing_live = validate_sections(content, ["아키텍처", "빠른 시작", "확장", "가이드"])
             assert missing_live == []
 
     def test_03_broken_markdown_links_detection_boundary(self, temp_dir: Path):

@@ -148,7 +148,24 @@ print("최근 7일 페이지뷰:", stats.total_pageviews)
 
 ---
 
-## 💡 요약: 에이전트 3대 행동 수칙
+## 🚀 7. GitHub Actions (CI/CD) 연동 방법
+
+블로그 레포지토리의 GitHub Actions 워크플로우(`.github/workflows/*.yml`)에서 `blog_core`를 사용하여 자동 검증을 수행할 경우, `Install dependencies` 단계에 아래 패키지 설치 명령을 반드시 추가하십시오:
+
+```yaml
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml pytest
+          pip install git+https://github.com/everhashk-justin/you_idea_blog_core.git
+```
+
+`you_idea_blog_core`는 공개(Public) 오픈소스 저장소이므로, 별도의 Secret 토큰이나 인증 설정 없이 클라우드 러너에서 즉시 100% 정상 설치됩니다.
+
+---
+
+## 💡 요약: 에이전트 4대 행동 수칙
 1. **독립성 유지**: 내 블로그 룰은 `rules/platforms/<블로그명>.py`에서만 작성하고, 타 블로그 코드나 코어 엔진은 건드리지 않는다.
 2. **단일 원천 원칙**: 프론트엔드 자산 수정은 오직 `web_assets/`에서만 수행하고 `sync_to_blogs.py`로 배포한다.
-3. **안전성 검증**: 규칙 추가 후 반드시 `pytest`를 실행하여 100% 통과를 확인한 후 완료 보고한다.
+3. **CI/CD 연동 표준화**: GitHub Actions 워크플로우에 `pip install git+https://github.com/everhashk-justin/you_idea_blog_core.git`를 의무 적용한다.
+4. **안전성 검증**: 규칙 추가 후 반드시 `pytest`를 실행하여 100% 통과를 확인한 후 완료 보고한다.

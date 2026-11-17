@@ -23,6 +23,10 @@ class MinLengthRule(BaseRule):
     def check(self, ctx: RuleContext) -> List[Violation]:
         violations: List[Violation] = []
 
+        # 홈 랜딩 페이지(Starlight splash 또는 index)는 최소 분량 검사 제외
+        if ctx.fm_data.get("template") == "splash" or ctx.file_path.replace("\\", "/").endswith(("/index.md", "/index.mdx", "index.md", "index.mdx")):
+            return []
+
         if ctx.platform == "dev":
             word_count = len(re.findall(r"\b[a-zA-Z0-9_\-]+\b", ctx.body))
             if word_count < 700:

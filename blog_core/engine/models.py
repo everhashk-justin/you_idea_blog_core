@@ -49,6 +49,10 @@ class GateReport:
     warning_count: int
     violations: List[Violation] = field(default_factory=list)
 
+    @property
+    def passed(self) -> bool:
+        return self.is_passed
+
     def to_dict(self) -> dict:
         return {
             "file_path": self.file_path,

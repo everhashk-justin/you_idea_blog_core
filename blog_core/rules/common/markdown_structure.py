@@ -22,14 +22,20 @@ class FrontmatterRequiredRule(BaseRule):
 
     def check(self, ctx: RuleContext) -> List[Violation]:
         violations: List[Violation] = []
-        required_keys = ["title", "tags"]
+
+        # 홈 랜딩 페이지(Starlight splash 또는 index)는 일반 아티클 Frontmatter 필수 키 검증 제외
+        if ctx.fm_data.get("template") == "splash" or ctx.file_path.replace("\\", "/").endswith(("/index.md", "/index.mdx", "index.md", "index.mdx")):
+            return []
 
         if ctx.platform == "gear":
-            # gear 플랫폼은 category 대신 series 필드 허용
+            # gear 플랫폼은 category 대신 series, tags 대신 standards 필드 허용
+            required_keys = ["title"]
             if "category" not in ctx.fm_data and "series" not in ctx.fm_data:
                 required_keys.append("category")
+            if "tags" not in ctx.fm_data and "standards" not in ctx.fm_data:
+                required_keys.append("tags")
         else:
-            required_keys.append("category")
+            required_keys = ["title", "tags", "category"]
 
         for k in required_keys:
             if k not in ctx.fm_data or not ctx.fm_data[k].strip():

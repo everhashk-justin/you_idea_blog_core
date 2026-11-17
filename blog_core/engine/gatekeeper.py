@@ -35,7 +35,13 @@ class IroncladGatekeeper:
     모듈러 플러그인 규칙 레지스트리(RuleRegistry)와 100% 하위 호환성을 제공합니다.
     """
 
-    def __init__(self, strict_mode: bool = False, registry: Optional[RuleRegistry] = None):
+    def __init__(
+        self,
+        platform: Optional[str] = None,
+        strict_mode: bool = False,
+        registry: Optional[RuleRegistry] = None
+    ):
+        self.platform = platform
         self.strict_mode = strict_mode
         self.registry = registry or default_registry
 
@@ -140,7 +146,7 @@ class IroncladGatekeeper:
         with open(file_path, "r", encoding="utf-8", errors="replace") as f:
             content = f.read()
 
-        platform = platform_override or self.detect_platform(file_path, content)
+        platform = platform_override or self.platform or self.detect_platform(file_path, content)
         effective_strict = self.strict_mode if strict is None else strict
 
         ctx = create_context(
@@ -174,6 +180,15 @@ class IroncladGatekeeper:
             warning_count=warning_count,
             violations=violations
         )
+
+    def evaluate_file(
+        self,
+        file_path: str,
+        platform_override: Optional[str] = None,
+        strict: Optional[bool] = None
+    ) -> GateReport:
+        """단일 파일 검증 수행 (verify의 별칭, 01_you_idea_blog_core 표준 인터페이스)."""
+        return self.verify(file_path, platform_override=platform_override, strict=strict)
 
     def run_self_tests(self) -> bool:
         """12개 내장 셀프 테스트 실행 (하위 호환성 별칭)."""
@@ -660,10 +675,13 @@ def main():
             print(f"❌ 디렉터리를 찾을 수 없습니다: {args.dir}")
             sys.exit(1)
 
-        files = list(dir_path.glob("*.md")) + list(dir_path.glob("**/*.md"))
+        files = (
+            list(dir_path.glob("*.md")) + list(dir_path.glob("**/*.md")) +
+            list(dir_path.glob("*.mdx")) + list(dir_path.glob("**/*.mdx"))
+        )
         files = sorted(list(set(files)))
         if not files:
-            print(f"⚠️ 디렉터리 내에 .md 파일이 없습니다: {args.dir}")
+            print(f"⚠️ 디렉터리 내에 .md/.mdx 파일이 없습니다: {args.dir}")
             sys.exit(0)
 
         print(f"\n📂 총 {len(files)}개 마크다운 파일 일괄 철벽 검증 시작...")
