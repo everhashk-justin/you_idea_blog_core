@@ -50,7 +50,7 @@ class IroncladGatekeeper:
         norm_path = file_path.replace("\\", "/").lower()
         if "blogs/dev" in norm_path or "dev.ideaspot360" in norm_path:
             return "dev"
-        if "markets" in norm_path or "markets.ideaspot360" in norm_path:
+        if "stock_blog_global" in norm_path or "markets" in norm_path or "markets.ideaspot360" in norm_path:
             return "markets"
         if "stock" in norm_path or "stock.ideaspot360" in norm_path:
             return "stock"
