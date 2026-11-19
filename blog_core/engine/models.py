@@ -48,6 +48,10 @@ class GateReport:
     reject_count: int
     warning_count: int
     violations: List[Violation] = field(default_factory=list)
+    is_reserved: bool = False
+    reserve_date: str = None
+    reserve_time: str = None
+    target_dt: object = None
 
     @property
     def passed(self) -> bool:
@@ -61,6 +65,10 @@ class GateReport:
             "score": self.score,
             "reject_count": self.reject_count,
             "warning_count": self.warning_count,
+            "is_reserved": self.is_reserved,
+            "reserve_date": self.reserve_date,
+            "reserve_time": self.reserve_time,
+            "target_dt": str(self.target_dt) if self.target_dt else None,
             "violations": [asdict(v) for v in self.violations],
         }
 

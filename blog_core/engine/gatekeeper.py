@@ -116,7 +116,14 @@ class IroncladGatekeeper:
         self,
         file_path: str,
         platform_override: Optional[str] = None,
-        strict: Optional[bool] = None
+        platform: Optional[str] = None,
+        strict: Optional[bool] = None,
+        is_reserved: Optional[bool] = None,
+        reserve_date: Optional[str] = None,
+        reserve_time: Optional[str] = None,
+        reserve_composite: Optional[str] = None,
+        now_dt: Optional[object] = None,
+        min_buffer_minutes: int = 10
     ) -> GateReport:
         """
         단일 마크다운 파일 검증 실행기.
@@ -146,14 +153,20 @@ class IroncladGatekeeper:
         with open(file_path, "r", encoding="utf-8", errors="replace") as f:
             content = f.read()
 
-        platform = platform_override or self.platform or self.detect_platform(file_path, content)
+        platform = platform or platform_override or self.platform or self.detect_platform(file_path, content)
         effective_strict = self.strict_mode if strict is None else strict
 
         ctx = create_context(
             file_path=file_path,
             content=content,
             platform=platform,
-            strict_mode=effective_strict
+            strict_mode=effective_strict,
+            is_reserved=is_reserved,
+            reserve_date=reserve_date,
+            reserve_time=reserve_time,
+            reserve_composite=reserve_composite,
+            now_dt=now_dt,
+            min_buffer_minutes=min_buffer_minutes
         )
 
         # 레지스트리에서 해당 플랫폼 화이트리스트에 일치하는 규칙 수집
@@ -171,6 +184,11 @@ class IroncladGatekeeper:
         score = GateReport.calculate_score(reject_count, warning_count)
         is_passed = (reject_count == 0)
 
+        from blog_core.rules.common.reservation_guard import extract_reservation_info
+        is_res, target_dt, has_sec, _ = extract_reservation_info(ctx)
+        res_date = target_dt.strftime("%Y-%m-%d") if target_dt else None
+        res_time = target_dt.strftime("%H:%M:%S" if has_sec else "%H:%M") if target_dt else None
+
         return GateReport(
             file_path=file_path,
             platform=platform,
@@ -178,17 +196,39 @@ class IroncladGatekeeper:
             score=score,
             reject_count=reject_count,
             warning_count=warning_count,
-            violations=violations
+            violations=violations,
+            is_reserved=is_res,
+            reserve_date=res_date,
+            reserve_time=res_time,
+            target_dt=target_dt
         )
 
     def evaluate_file(
         self,
         file_path: str,
         platform_override: Optional[str] = None,
-        strict: Optional[bool] = None
+        platform: Optional[str] = None,
+        strict: Optional[bool] = None,
+        is_reserved: Optional[bool] = None,
+        reserve_date: Optional[str] = None,
+        reserve_time: Optional[str] = None,
+        reserve_composite: Optional[str] = None,
+        now_dt: Optional[object] = None,
+        min_buffer_minutes: int = 10
     ) -> GateReport:
         """단일 파일 검증 수행 (verify의 별칭, 01_you_idea_blog_core 표준 인터페이스)."""
-        return self.verify(file_path, platform_override=platform_override, strict=strict)
+        return self.verify(
+            file_path,
+            platform_override=platform_override,
+            platform=platform,
+            strict=strict,
+            is_reserved=is_reserved,
+            reserve_date=reserve_date,
+            reserve_time=reserve_time,
+            reserve_composite=reserve_composite,
+            now_dt=now_dt,
+            min_buffer_minutes=min_buffer_minutes
+        )
 
     def run_self_tests(self) -> bool:
         """12개 내장 셀프 테스트 실행 (하위 호환성 별칭)."""
@@ -240,14 +280,29 @@ def verify_or_abort(
     file_path: str,
     platform: Optional[str] = None,
     strict: bool = False,
-    show_hints: bool = True
+    show_hints: bool = True,
+    is_reserved: Optional[bool] = None,
+    reserve_date: Optional[str] = None,
+    reserve_time: Optional[str] = None,
+    reserve_composite: Optional[str] = None,
+    now_dt: Optional[object] = None,
+    min_buffer_minutes: int = 10
 ) -> GateReport:
     """
     글 발행 시스템(create_post.py, publish_to_dev.py 등) 연동용 함수.
     검증 실패 시 즉각 sys.exit(1)을 호출하여 후속 발행 트랜잭션을 물리적으로 차단함.
     """
     gatekeeper = IroncladGatekeeper(strict_mode=strict)
-    report = gatekeeper.verify(file_path, platform_override=platform)
+    report = gatekeeper.verify(
+        file_path,
+        platform_override=platform,
+        is_reserved=is_reserved,
+        reserve_date=reserve_date,
+        reserve_time=reserve_time,
+        reserve_composite=reserve_composite,
+        now_dt=now_dt,
+        min_buffer_minutes=min_buffer_minutes
+    )
     print_gate_report(report, show_hints=show_hints)
 
     if not report.is_passed:

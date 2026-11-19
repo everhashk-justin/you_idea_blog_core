@@ -4,6 +4,7 @@ blog_core.engine.context - Execution context for rules (RuleContext)
 """
 
 import re
+from datetime import datetime
 from dataclasses import dataclass
 from typing import List, Dict, Tuple, Optional
 
@@ -85,13 +86,30 @@ class RuleContext:
     body_start_line: int
     code_blocks: List[Tuple[str, str, int]]
     strict_mode: bool = False
+    is_reserved: Optional[bool] = None
+    reserve_date: Optional[str] = None
+    reserve_time: Optional[str] = None
+    reserve_composite: Optional[str] = None
+    now_dt: Optional[datetime] = None
+    min_buffer_minutes: int = 10
 
     def is_english(self) -> bool:
         """영문 플랫폼이거나 본문 앞부분에 한글이 없는 경우 영문 콘텐츠로 판별."""
         return self.platform in ["dev", "markets"] or len(re.findall(r"[가-힣]", self.body[:500])) == 0
 
 
-def create_context(file_path: str, content: str, platform: str, strict_mode: bool = False) -> RuleContext:
+def create_context(
+    file_path: str,
+    content: str,
+    platform: str,
+    strict_mode: bool = False,
+    is_reserved: Optional[bool] = None,
+    reserve_date: Optional[str] = None,
+    reserve_time: Optional[str] = None,
+    reserve_composite: Optional[str] = None,
+    now_dt: Optional[datetime] = None,
+    min_buffer_minutes: int = 10
+) -> RuleContext:
     """원시 텍스트와 파일 정보로부터 RuleContext를 1회 생성하는 팩토리 함수."""
     fm_text, body, body_start_line = split_frontmatter_and_body(content)
     fm_data = parse_frontmatter(fm_text)
@@ -108,4 +126,10 @@ def create_context(file_path: str, content: str, platform: str, strict_mode: boo
         body_start_line=body_start_line,
         code_blocks=code_blocks,
         strict_mode=strict_mode,
+        is_reserved=is_reserved,
+        reserve_date=reserve_date,
+        reserve_time=reserve_time,
+        reserve_composite=reserve_composite,
+        now_dt=now_dt,
+        min_buffer_minutes=min_buffer_minutes,
     )
