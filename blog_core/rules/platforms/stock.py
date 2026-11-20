@@ -282,3 +282,134 @@ class StockUSCoveredCallAntiCopyRule(BaseRule):
             ))
 
         return violations
+
+
+class StockDiagramVisualQARule(BaseRule):
+    """증시 블로그 차트 도안 이미지 실존 및 layout_audit.json 시각 무결성(1920x1080, 결함 0) 강제 검증 규칙 (Gate 6)"""
+
+    rule_id = "G6_STOCK_DIAGRAM_VISUAL_QA"
+    gate_id = "GATE_6"
+    gate_name = "증시 블로그 도안 및 이미지 시각 무결성 방벽"
+    description = "포스트 참조 로컬 도안 이미지 실존 및 layout_audit.json 1920x1080 해상도·결함 0건 기계적 검증"
+    platforms = ["stock"]
+    default_severity = "REJECT"
+
+    def check(self, ctx: RuleContext) -> List[Violation]:
+        violations: List[Violation] = []
+        if not ctx.file_path:
+            return violations
+
+        target_file = Path(ctx.file_path).resolve()
+        if not target_file.exists():
+            return violations
+
+        candidate_roots = [
+            target_file.parent,
+            target_file.parent.parent,
+            target_file.parent.parent.parent,
+            target_file.parent.parent.parent.parent,
+            Path.cwd(),
+            Path("growth_engine/03_blog_hub/stock_blog"),
+            Path(r"d:\00_antigravity\01_stock_alram_longform_blog\growth_engine\03_blog_hub\stock_blog"),
+            Path(r"d:\00_antigravity\01_stock_alram_longform_blog"),
+        ]
+
+        # layout_audit.json 파일 탐색
+        layout_audit_paths = [
+            Path.cwd() / "reports" / "stock_blog_audits" / "layout_audit.json",
+            Path(r"d:\00_antigravity\01_stock_alram_longform_blog\reports\stock_blog_audits\layout_audit.json"),
+            target_file.parents[3] / "reports" / "stock_blog_audits" / "layout_audit.json" if len(target_file.parents) > 3 else None,
+        ]
+        layout_audit_data = {}
+        import json
+        for lap in layout_audit_paths:
+            if lap and lap.is_file():
+                try:
+                    layout_audit_data = json.loads(lap.read_text(encoding="utf-8"))
+                    break
+                except Exception:
+                    pass
+
+        img_refs = re.findall(r'!\[([^\]]*)\]\(([^)]+)\)', ctx.body)
+        for alt_text, img_src in img_refs:
+            if img_src.startswith("http://") or img_src.startswith("https://"):
+                continue
+
+            clean_src = img_src.split("?")[0].split("#")[0]
+            file_name = Path(clean_src).name
+
+            # 1. 파일 실존 여부 확인
+            found = False
+            if clean_src.startswith("/"):
+                rel_path = clean_src.lstrip("/")
+                for root in candidate_roots:
+                    candidate = root / rel_path
+                    if candidate.is_file():
+                        found = True
+                        break
+            else:
+                for root in candidate_roots:
+                    if (target_file.parent / clean_src).is_file() or (root / clean_src).is_file():
+                        found = True
+                        break
+
+            if not found:
+                violations.append(Violation(
+                    gate_id=self.gate_id,
+                    gate_name=self.gate_name,
+                    rule_id="G6_STOCK_MISSING_IMAGE_FILE",
+                    severity=self.default_severity,
+                    line_number=0,
+                    snippet=f"![{alt_text}]({img_src})",
+                    message=f"[도안 실존 검증 실패] 본문에서 참조하는 이미지 파일 '{clean_src}'이 디스크에 실제로 존재하지 않습니다.",
+                    fix_hint="도안 생성 스크립트를 실행하여 정규 이미지를 assets/img/posts/ 디렉토리에 생성하십시오."
+                ))
+                continue
+
+            # 2. 차트 도안/인포그래픽인 경우 layout_audit.json 검증
+            is_diagram = any(k in file_name.lower() for k in ["chart", "comparison", "pullback", "spoofing", "group", "diagram"])
+            if is_diagram:
+                if not layout_audit_data or file_name not in layout_audit_data:
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G6_STOCK_DIAGRAM_UNAUDITED",
+                        severity=self.default_severity,
+                        line_number=0,
+                        snippet=f"도안 파일명: {file_name}",
+                        message=f"[도안 육안검수 누락] 차트 도안 '{file_name}'의 layout_audit.json 감사 기록이 존재하지 않습니다.",
+                        fix_hint="VisualQAGuard 또는 도안 검증 스크립트를 가동하여 layout_audit.json에 1920x1080 및 무결성 감사 기록을 등록하십시오."
+                    ))
+                else:
+                    entry = layout_audit_data[file_name]
+                    # 해상도 확인
+                    res = entry.get("resolution") or [entry.get("width_px", 0), entry.get("height_px", 0)]
+                    if res != [1920, 1080]:
+                        violations.append(Violation(
+                            gate_id=self.gate_id,
+                            gate_name=self.gate_name,
+                            rule_id="G6_STOCK_DIAGRAM_INVALID_RESOLUTION",
+                            severity=self.default_severity,
+                            line_number=0,
+                            snippet=f"실측 해상도: {res}",
+                            message=f"[도안 해상도 규격 미달] 차트 도안 '{file_name}'의 해상도가 1920x1080이 아닙니다 (실측: {res}).",
+                            fix_hint="도안 렌더러의 DPI 및 figsize 설정을 수정하여 1920x1080 고해상도로 렌더링하십시오."
+                        ))
+
+                    # 결함 수 확인
+                    defects = entry.get("defects_count", 0)
+                    verdict = entry.get("verdict", "")
+                    qa_status = entry.get("qa_status", "")
+                    if defects > 0 or (verdict != "PASSED_ZERO_DEFECTS" and qa_status != "PASS"):
+                        violations.append(Violation(
+                            gate_id=self.gate_id,
+                            gate_name=self.gate_name,
+                            rule_id="G6_STOCK_DIAGRAM_DEFECTS_FOUND",
+                            severity=self.default_severity,
+                            line_number=0,
+                            snippet=f"결함 수: {defects}, 상태: {verdict or qa_status}",
+                            message=f"[도안 시각 결함 감지] 차트 도안 '{file_name}'에서 시각적 결함({defects}건)이 발견되었습니다.",
+                            fix_hint="타이틀 충돌, 캔버스 이탈, 패딩 부족 등의 결함을 수정한 후 재검증하십시오."
+                        ))
+
+        return violations
