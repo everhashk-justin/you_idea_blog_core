@@ -291,7 +291,7 @@ class StockDiagramVisualQARule(BaseRule):
     gate_id = "GATE_6"
     gate_name = "증시 블로그 도안 및 이미지 시각 무결성 방벽"
     description = "포스트 참조 로컬 도안 이미지 실존 및 layout_audit.json 1920x1080 해상도·결함 0건 기계적 검증"
-    platforms = ["stock"]
+    platforms = ["stock", "markets"]
     default_severity = "REJECT"
 
     def check(self, ctx: RuleContext) -> List[Violation]:
@@ -310,23 +310,29 @@ class StockDiagramVisualQARule(BaseRule):
             target_file.parent.parent.parent.parent,
             Path.cwd(),
             Path("growth_engine/03_blog_hub/stock_blog"),
+            Path("growth_engine/03_blog_hub/stock_blog_global"),
             Path(r"d:\00_antigravity\01_stock_alram_longform_blog\growth_engine\03_blog_hub\stock_blog"),
+            Path(r"d:\00_antigravity\01_stock_alram_longform_blog\growth_engine\03_blog_hub\stock_blog_global"),
             Path(r"d:\00_antigravity\01_stock_alram_longform_blog"),
         ]
 
-        # layout_audit.json 파일 탐색
+        # layout_audit.json 파일 탐색 (국내 및 글로벌 블로그 감사 데이터 통합 로드)
         layout_audit_paths = [
             Path.cwd() / "reports" / "stock_blog_audits" / "layout_audit.json",
             Path(r"d:\00_antigravity\01_stock_alram_longform_blog\reports\stock_blog_audits\layout_audit.json"),
+            Path.cwd() / "reports" / "stock_blog_global_audits" / "layout_audit.json",
+            Path(r"d:\00_antigravity\01_stock_alram_longform_blog\reports\stock_blog_global_audits\layout_audit.json"),
             target_file.parents[3] / "reports" / "stock_blog_audits" / "layout_audit.json" if len(target_file.parents) > 3 else None,
+            target_file.parents[3] / "reports" / "stock_blog_global_audits" / "layout_audit.json" if len(target_file.parents) > 3 else None,
         ]
         layout_audit_data = {}
         import json
         for lap in layout_audit_paths:
             if lap and lap.is_file():
                 try:
-                    layout_audit_data = json.loads(lap.read_text(encoding="utf-8"))
-                    break
+                    loaded = json.loads(lap.read_text(encoding="utf-8"))
+                    if isinstance(loaded, dict):
+                        layout_audit_data.update(loaded)
                 except Exception:
                     pass
 
@@ -367,7 +373,7 @@ class StockDiagramVisualQARule(BaseRule):
                 continue
 
             # 2. 차트 도안/인포그래픽인 경우 layout_audit.json 검증
-            is_diagram = any(k in file_name.lower() for k in ["chart", "comparison", "pullback", "spoofing", "group", "diagram"])
+            is_diagram = any(k in file_name.lower() for k in ["chart", "comparison", "pullback", "spoofing", "group", "diagram", "capex", "roic", "decompilation", "infographic"]) or file_name in layout_audit_data
             if is_diagram:
                 if not layout_audit_data or file_name not in layout_audit_data:
                     violations.append(Violation(
@@ -410,6 +416,34 @@ class StockDiagramVisualQARule(BaseRule):
                             snippet=f"결함 수: {defects}, 상태: {verdict or qa_status}",
                             message=f"[도안 시각 결함 감지] 차트 도안 '{file_name}'에서 시각적 결함({defects}건)이 발견되었습니다.",
                             fix_hint="타이틀 충돌, 캔버스 이탈, 패딩 부족 등의 결함을 수정한 후 재검증하십시오."
+                        ))
+
+                    # 텍스트 오버플로우 결함 검증
+                    text_overflow = entry.get("TEXT_OVERFLOW_DEFECTS", entry.get("text_overflow_defects", 0))
+                    if text_overflow > 0:
+                        violations.append(Violation(
+                            gate_id=self.gate_id,
+                            gate_name=self.gate_name,
+                            rule_id="G6_DIAGRAM_TEXT_OVERFLOW",
+                            severity=self.default_severity,
+                            line_number=0,
+                            snippet=f"오버플로우 결함 수: {text_overflow}",
+                            message=f"[도안 텍스트 오버플로우 감지] 차트 도안 '{file_name}'에서 컨테이너 경계를 이탈한 텍스트 결함({text_overflow}건)이 발견되었습니다.",
+                            fix_hint="텍스트에 textwrap 줄바꿈을 적용하고 카드 컨테이너 내부 최소 20px 이상의 안전 여백을 확보하십시오."
+                        ))
+
+                    # 헤더 컨테이너 무결성 검증
+                    header_integrity = entry.get("HEADER_CONTAINER_INTEGRITY", entry.get("header_container_integrity", "PASS"))
+                    if header_integrity != "PASS":
+                        violations.append(Violation(
+                            gate_id=self.gate_id,
+                            gate_name=self.gate_name,
+                            rule_id="G6_DIAGRAM_HEADER_CONTAINER_BREACH",
+                            severity=self.default_severity,
+                            line_number=0,
+                            snippet=f"헤더 무결성 상태: {header_integrity}",
+                            message=f"[도안 헤더 컨테이너 이탈 감지] 차트 도안 '{file_name}'의 섹션 제목/부제가 전용 헤더 컨테이너 박스 외부에 배치되었습니다.",
+                            fix_hint="create_modular_box 등을 활용하여 섹션 상단에 전용 헤더 배너 컨테이너를 탑재하고 제목/부제를 100% 포섭하십시오."
                         ))
 
         return violations
