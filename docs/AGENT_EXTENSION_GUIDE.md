@@ -164,8 +164,9 @@ print("최근 7일 페이지뷰:", stats.total_pageviews)
 
 ---
 
-## 💡 요약: 에이전트 4대 행동 수칙
+## 💡 요약: 에이전트 5대 행동 수칙
 1. **독립성 유지**: 내 블로그 룰은 `rules/platforms/<블로그명>.py`에서만 작성하고, 타 블로그 코드나 코어 엔진은 건드리지 않는다.
 2. **단일 원천 원칙**: 프론트엔드 자산 수정은 오직 `web_assets/`에서만 수행하고 `sync_to_blogs.py`로 배포한다.
 3. **CI/CD 연동 표준화**: GitHub Actions 워크플로우에 `pip install git+https://github.com/everhashk-justin/you_idea_blog_core.git`를 의무 적용한다.
 4. **안전성 검증**: 규칙 추가 후 반드시 `pytest`를 실행하여 100% 통과를 확인한 후 완료 보고한다.
+5. **최신 정보 실측 검증 (Mandatory Real-Time Fact-Check)**: 사전 학습 데이터(가중치)나 과거 기억/기록에만 의존한 작성을 100% 원천 영구 금지하고, 공식 레퍼런스·최신 릴리스 노트·정부 공인 고시·최신 소스코드 등 공인된 실측 데이터를 실시간으로 검색(`search_web`) 및 교차 검증한 후 집필한다.
