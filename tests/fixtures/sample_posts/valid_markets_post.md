@@ -2,6 +2,10 @@
 title: "Understanding Federal Reserve Net Liquidity and Treasury General Account Mechanics"
 category: "Global Macro & Finance"
 tags: "macro, fed, liquidity, tga, repo"
+fact_check_sources:
+  - "Federal Reserve H.4.1"
+  - "https://www.federalreserve.gov"
+verification_date: "2026-11-22"
 ---
 
 # Understanding Federal Reserve Net Liquidity and Treasury General Account Mechanics
@@ -34,6 +38,10 @@ Quantitative portfolio managers continuously monitor the weekly Federal Reserve 
 ## 3. Structural Regime Shifting and Prudent Risk Management
 
 Analyzing central bank balance sheets provides macro perspective, but it must be paired with comprehensive risk management models that account for currency fluctuations, global trade balances, and inflation trajectories. Cross-border capital flows between European, Japanese, and American debt instruments introduce feedback loops that can temporarily decouple asset prices from pure domestic reserve fluctuations. Diligent macroeconomic research requires synthesizing multi-layered data feeds rather than relying on oversimplified single-variable models.
+
+---
+
+[출처: Federal Reserve H.4.1 Factors Affecting Reserve Balances (https://www.federalreserve.gov)]
 
 ---
 

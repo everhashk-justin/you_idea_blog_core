@@ -6,7 +6,7 @@ blog_core.engine.context - Execution context for rules (RuleContext)
 import re
 from datetime import datetime
 from dataclasses import dataclass
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Tuple, Optional, Any
 
 
 def split_frontmatter_and_body(content: str) -> Tuple[Optional[str], str, int]:
@@ -27,22 +27,50 @@ def split_frontmatter_and_body(content: str) -> Tuple[Optional[str], str, int]:
     return None, content, 1
 
 
-def parse_frontmatter(fm_text: Optional[str]) -> Dict[str, str]:
-    """단순 정규식 기반 안전한 Frontmatter 파싱 (PyYAML 미설치 환경 대비)."""
+def parse_frontmatter(fm_text: Optional[str]) -> Dict[str, Any]:
+    """정규식 기반 안전한 Frontmatter 파싱 (PyYAML 미설치 환경 대비, 멀티라인 및 인라인 리스트 지원)."""
     if not fm_text:
         return {}
-    data = {}
-    for line in fm_text.splitlines():
-        line = line.strip()
+    data: Dict[str, Any] = {}
+    current_list_key: Optional[str] = None
+    for raw_line in fm_text.splitlines():
+        line = raw_line.strip()
         if not line or line.startswith("#"):
             continue
+
+        # 멀티라인 리스트 아이템: - value
+        if line.startswith("-") and current_list_key:
+            val = line.lstrip("-").strip()
+            if (val.startswith('"') and val.endswith('"')) or (val.startswith("'") and val.endswith("'")):
+                val = val[1:-1]
+            if isinstance(data.get(current_list_key), list):
+                data[current_list_key].append(val)
+            else:
+                data[current_list_key] = [val]
+            continue
+
         match = re.match(r"^([a-zA-Z0-9_\-]+)\s*:\s*(.*)$", line)
         if match:
             k, v = match.group(1).strip(), match.group(2).strip()
-            # 따옴표 제거
-            if (v.startswith('"') and v.endswith('"')) or (v.startswith("'") and v.endswith("'")):
-                v = v[1:-1]
-            data[k] = v
+            if v == "" or v == "[]":
+                data[k] = []
+                current_list_key = k
+            elif v.startswith("[") and v.endswith("]"):
+                inner = v[1:-1].strip()
+                items = []
+                if inner:
+                    for item in re.findall(r'(?:"([^"]*)"|\'([^\']*)\'|([^,]+))', inner):
+                        extracted = item[0] or item[1] or item[2]
+                        items.append(extracted.strip())
+                data[k] = items
+                current_list_key = None
+            else:
+                if (v.startswith('"') and v.endswith('"')) or (v.startswith("'") and v.endswith("'")):
+                    v = v[1:-1]
+                data[k] = v
+                current_list_key = None
+        else:
+            current_list_key = None
     return data
 
 

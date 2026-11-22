@@ -467,3 +467,300 @@ class MacroQuantIntegrityRule(BaseRule):
                 ))
 
         return violations
+
+
+class WelfareTaxTheoryRule(BaseRule):
+    """정부 정책 / 복지 / 세무 이론 정합성 검증 규칙 (Gate 11 - solidlog)"""
+
+    rule_id = "G11_WELFARE_TAX_INTEGRITY"
+    gate_id = "GATE_11"
+    gate_name = "도메인별 이론 정합성 및 수치 환각 차단 관문"
+    description = "2026년 기준 중위소득, 생계급여 32%, 청년도약계좌 5년 만기, 금투세 폐지 확정 등 복지/세무 정합성 검증"
+    platforms = None
+    default_severity = "REJECT"
+
+    def check(self, ctx: RuleContext) -> List[Violation]:
+        violations: List[Violation] = []
+        for idx, line in enumerate(ctx.lines, start=1):
+            s_line = line.strip()
+            if s_line.startswith("```") or not s_line:
+                continue
+
+            clean_line = re.sub(r"[*_`]", "", line)
+            clean_line = re.sub(r"</?[a-zA-Z0-9]+[^>]*>", "", clean_line)
+
+            # 1. 기준 중위소득 과거 수치 왜곡 (2026년 4인가구 6,097,773원)
+            if re.search(r"2026년.*?(?:기준\s*중위소득|중위소득).*?(?:50[0-9]|51[0-9]|52[0-9]|53[0-9]|54[0-9]|55[0-9]|56[0-9]|57[0-9]|58[0-9])만\s*원", line) or re.search(r"2026년.*?(?:기준\s*중위소득|중위소득).*?(?:50[0-9]|51[0-9]|52[0-9]|53[0-9]|54[0-9]|55[0-9]|56[0-9]|57[0-9]|58[0-9])만\s*원", clean_line):
+                if "609만" not in line and "6,097,773" not in line:
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G11_WELFARE_OUTDATED_MEDIAN_INCOME",
+                        severity=self.default_severity,
+                        line_number=idx,
+                        snippet=line.strip()[:100],
+                        message="[기준 중위소득 과거 수치 왜곡] 2026년 4인 가구 기준 중위소득은 6,097,773원(약 609만 원)입니다. 2023년(540만 원)이나 2024년(572만 원) 과거 수치를 제시하는 오류를 금지합니다.",
+                        fix_hint="2026년 최신 고시 기준 4인 가구 609만 7,773원으로 수치를 바로잡으십시오."
+                    ))
+
+            # 2. 생계급여 선정기준 구 규정 (30% vs 32%)
+            if re.search(r"생계급여.*?(?:선정\s*기준|수급\s*자격|소득\s*인정액|지원\s*기준).*?중위소득\s*30%", line) or re.search(r"생계급여.*?(?:선정\s*기준|수급\s*자격|소득\s*인정액|지원\s*기준).*?중위소득\s*30%", clean_line):
+                if "32%" not in line:
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G11_WELFARE_OUTDATED_LIVELIHOOD_BENEFIT",
+                        severity=self.default_severity,
+                        line_number=idx,
+                        snippet=line.strip()[:100],
+                        message="[생계급여 선정기준 구 규정 왜곡] 생계급여 선정기준은 2024년부터 기준 중위소득 32%로 상향되었습니다. 30%는 2023년 이전 폐지된 구 규정입니다.",
+                        fix_hint="생계급여 선정 기준을 '기준 중위소득 32% 이하'로 수정하십시오."
+                    ))
+
+            # 3. 청년도약계좌 만기 2년 혼동
+            if re.search(r"청년도약계좌.*?(?:만기\s*2년|2년\s*만기|총급여\s*3,?600만\s*원|3,?600만\s*원\s*이하\s*(?:신청|가입))", line) or re.search(r"청년도약계좌.*?(?:만기\s*2년|2년\s*만기|총급여\s*3,?600만\s*원|3,?600만\s*원\s*이하\s*(?:신청|가입))", clean_line):
+                if not ("만기 5년" in line or "5년 만기" in line or "7,500" in line):
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G11_WELFARE_YOUTH_ACCOUNT_CONFUSION",
+                        severity=self.default_severity,
+                        line_number=idx,
+                        snippet=line.strip()[:100],
+                        message="[청년도약계좌 조건 왜곡] 청년도약계좌는 만기 5년, 총급여 7,500만 원 이하(종합소득 6,300만 원 이하) 기준입니다. 만기 2년 및 총급여 3,600만 원은 폐지된 청년희망적금 스펙과의 혼동입니다.",
+                        fix_hint="만기 5년 및 총급여 7,500만 원 이하로 조건을 바로잡으십시오."
+                    ))
+
+            # 4. 금투세 시행 환각
+            if re.search(r"(?:2026년|올해).*?(?:금투세|금융투자소득세).*?(?:시행|도입|과세된다|적용된다|시행되어)", line) or re.search(r"(?:2026년|올해).*?(?:금투세|금융투자소득세).*?(?:시행|도입|과세된다|적용된다|시행되어)", clean_line):
+                if not any(w in line for w in ["폐지", "철회", "유예", "무산", "취소", "사라진"]):
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G11_TAX_ABOLISHED_FINANCIAL_INVESTMENT_TAX",
+                        severity=self.default_severity,
+                        line_number=idx,
+                        snippet=line.strip()[:100],
+                        message="[금융투자소득세 폐지 사실 미반영 환각] 금융투자소득세(금투세)는 폐지가 확정되었습니다. 2026년에 금투세가 시행되거나 과세된다는 서술은 사전학습 환각입니다.",
+                        fix_hint="금투세 폐지 확정 사실을 반영하여 서술을 수정하거나 관련 문장을 삭제하십시오."
+                    ))
+
+        return violations
+
+
+class HealthNutritionTheoryRule(BaseRule):
+    """건강 / 영양제 성분 과학 이론 정합성 검증 규칙 (Gate 11 - infopiece)"""
+
+    rule_id = "G11_HEALTH_NUTRITION_INTEGRITY"
+    gate_id = "GATE_11"
+    gate_name = "도메인별 이론 정합성 및 수치 환각 차단 관문"
+    description = "오메가3 TG/EE/rTG 분자결합 구조 및 생체이용률, IFOS 5-Star, 마그네슘 흡수율 기전 정합성 검증"
+    platforms = None
+    default_severity = "REJECT"
+
+    def check(self, ctx: RuleContext) -> List[Violation]:
+        violations: List[Violation] = []
+        for idx, line in enumerate(ctx.lines, start=1):
+            s_line = line.strip()
+            if s_line.startswith("```") or not s_line:
+                continue
+
+            clean_line = re.sub(r"[*_`]", "", line)
+            clean_line = re.sub(r"</?[a-zA-Z0-9]+[^>]*>", "", clean_line)
+
+            # 1. EE형 글리세롤 결합 왜곡
+            if re.search(r"EE형.*?(?:글리세롤\s*뼈대|글리세롤\s*기반|글리세롤에\s*결합)", line) or re.search(r"EE형.*?(?:글리세롤\s*뼈대|글리세롤\s*기반|글리세롤에\s*결합)", clean_line):
+                violations.append(Violation(
+                    gate_id=self.gate_id,
+                    gate_name=self.gate_name,
+                    rule_id="G11_HEALTH_FALSE_EE_STRUCTURE",
+                    severity=self.default_severity,
+                    line_number=idx,
+                    snippet=line.strip()[:100],
+                    message="[오메가3 분자구조 왜곡] EE형(Ethyl Ester)은 글리세롤 뼈대가 없으며 에탄올(에틸알코올) 1분자에 지방산 1개가 결합된 형태입니다.",
+                    fix_hint="EE형의 결합 구조를 '에탄올-지방산 에스테르 결합'으로 정정하십시오."
+                ))
+
+            # 2. rTG형 분자구조 왜곡
+            if re.search(r"rTG형.*?(?:에틸\s*에스테르\s*(?:형태|구조)|에탄올\s*결합)", line) or re.search(r"rTG형.*?(?:에틸\s*에스테르\s*(?:형태|구조)|에탄올\s*결합)", clean_line):
+                if not any(w in line for w in ["재에스테르화", "정제하여", "정제한", "가공하여", "결합한", "결합시킨", "만들어진", "원료로"]):
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G11_HEALTH_FALSE_RTG_STRUCTURE",
+                        severity=self.default_severity,
+                        line_number=idx,
+                        snippet=line.strip()[:100],
+                        message="[오메가3 분자구조 왜곡] rTG형(re-esterified TG)은 EE형을 재에스테르화하여 글리세롤 뼈대에 결합한 형태이며 에틸에스테르 형태가 아닙니다.",
+                        fix_hint="rTG형을 '글리세롤 뼈대에 불포화지방산 3개가 재결합한 구조'로 설명하십시오."
+                    ))
+
+            # 3. IFOS 10스타 비존재 등급
+            if re.search(r"IFOS.*?(?:10\s*스타|10-?Star|3\s*스타\s*최고)", line) or re.search(r"IFOS.*?(?:10\s*스타|10-?Star|3\s*스타\s*최고)", clean_line):
+                violations.append(Violation(
+                    gate_id=self.gate_id,
+                    gate_name=self.gate_name,
+                    rule_id="G11_HEALTH_FALSE_IFOS_GRADE",
+                    severity=self.default_severity,
+                    line_number=idx,
+                    snippet=line.strip()[:100],
+                    message="[IFOS 인증 규격 왜곡] IFOS(International Fish Oil Standards)의 최고 품질 등급은 5-Star입니다. 10스타 등 비존재 등급 표기를 금지합니다.",
+                    fix_hint="IFOS 최고 등급인 '5-Star'로 바로잡으십시오."
+                ))
+
+            # 4. 산화 마그네슘 최고 흡수율 왜곡
+            if re.search(r"산화\s*마그네슘.*?(?:흡수율이\s*가장\s*높|생체이용률이\s*가장\s*우수|가장\s*흡수가\s*잘)", line) or re.search(r"산화\s*마그네슘.*?(?:흡수율이\s*가장\s*높|생체이용률이\s*가장\s*우수|가장\s*흡수가\s*잘)", clean_line):
+                violations.append(Violation(
+                    gate_id=self.gate_id,
+                    gate_name=self.gate_name,
+                    rule_id="G11_HEALTH_FALSE_OXIDE_ABSORPTION",
+                    severity=self.default_severity,
+                    line_number=idx,
+                    snippet=line.strip()[:100],
+                    message="[마그네슘 흡수율 기전 왜곡] 산화 마그네슘은 원소 함량은 높으나 물에 녹지 않아 생체이용률(흡수율)이 약 4%로 가장 낮습니다.",
+                    fix_hint="산화 마그네슘은 흡수율이 낮고 완하작용(배변) 위주이며, 고흡수율 형태는 킬레이트/유기산 마그네슘임을 명시하십시오."
+                ))
+
+        return violations
+
+
+class TechInfraTheoryRule(BaseRule):
+    """기술 / 개발 / 인프라 이론 정합성 검증 규칙 (Gate 11 - dev, softwin, tidynote)"""
+
+    rule_id = "G11_TECH_INFRA_INTEGRITY"
+    gate_id = "GATE_11"
+    gate_name = "도메인별 이론 정합성 및 수치 환각 차단 관문"
+    description = "Linux sysctl (tcp_tw_recycle 제거), vm.swappiness 범위, k8s Ingress v1, 커널 버전 정합성 검증"
+    platforms = None
+    default_severity = "REJECT"
+
+    def check(self, ctx: RuleContext) -> List[Violation]:
+        violations: List[Violation] = []
+        in_code_block = False
+        code_lang = ""
+
+        for idx, line in enumerate(ctx.lines, start=1):
+            s_line = line.strip()
+            if s_line.startswith("```"):
+                if in_code_block:
+                    in_code_block = False
+                    code_lang = ""
+                else:
+                    in_code_block = True
+                    code_lang = s_line[3:].strip().lower()
+                continue
+            if not s_line:
+                continue
+
+            # diff 코드 블록 내의 제거 라인(-)은 폐지 설정 제거이므로 허용
+            if in_code_block and code_lang in ["diff", "patch"] and (s_line.startswith("-") or s_line.startswith("- ")):
+                continue
+
+            clean_line = re.sub(r"[*_`]", "", line)
+            clean_line = re.sub(r"</?[a-zA-Z0-9]+[^>]*>", "", clean_line)
+
+            # 1. net.ipv4.tcp_tw_recycle 제거 파라미터
+            if re.search(r"net\.ipv4\.tcp_tw_recycle", line) or re.search(r"net\.ipv4\.tcp_tw_recycle", clean_line):
+                if not any(w in line for w in ["제거", "삭제", "폐지", "deprecated", "removed", "지원하지", "사라진", "권장하지", "사용하면 안", "쓰면 안"]):
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G11_TECH_REMOVED_SYSCTL_TW_RECYCLE",
+                        severity=self.default_severity,
+                        line_number=idx,
+                        snippet=line.strip()[:100],
+                        message="[제거된 리눅스 커널 파라미터] net.ipv4.tcp_tw_recycle은 Linux 4.12 커널에서 영구 제거(Removed)되었습니다. NAT 환경에서 패킷 드롭을 유발하는 대표적인 과거 기억 환각 파라미터입니다.",
+                        fix_hint="tcp_tw_recycle을 삭제하고 net.ipv4.tcp_tw_reuse = 1 및 SO_REUSEPORT 아키텍처로 대체하십시오."
+                    ))
+
+            # 2. vm.swappiness 허용 범위 초과
+            if re.search(r"vm\.swappiness\s*=\s*(?:1[0-9]{2}|[2-9][0-9]{2}|-[0-9]+)\b", line) or re.search(r"vm\.swappiness\s*=\s*(?:1[0-9]{2}|[2-9][0-9]{2}|-[0-9]+)\b", clean_line):
+                violations.append(Violation(
+                    gate_id=self.gate_id,
+                    gate_name=self.gate_name,
+                    rule_id="G11_TECH_INVALID_SWAPPINESS_BOUNDS",
+                    severity=self.default_severity,
+                    line_number=idx,
+                    snippet=line.strip()[:100],
+                    message="[sysctl 허용 범위 초과] vm.swappiness의 표준 유효 범위는 0~100입니다.",
+                    fix_hint="vm.swappiness를 0~100 사이의 실무 권장 값(예: 10, 60 등)으로 지정하십시오."
+                ))
+
+            # 3. 비존재 가상 리눅스 커널 버전 (7.x / 8.x)
+            if re.search(r"(?:Linux\s+kernel|리눅스\s*커널)\s*(?:v?\s*)?(?:7\.\d+|8\.\d+)", line) or re.search(r"(?:Linux\s+kernel|리눅스\s*커널)\s*(?:v?\s*)?(?:7\.\d+|8\.\d+)", clean_line):
+                if not any(d in line for d in ["Enterprise Linux", "RHEL", "CentOS", "Oracle Linux", "AlmaLinux", "Rocky Linux", "Debian", "Ubuntu", "SUSE"]):
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G11_TECH_NONEXISTENT_KERNEL_VERSION",
+                        severity=self.default_severity,
+                        line_number=idx,
+                        snippet=line.strip()[:100],
+                        message="[비존재 가상 커널 버전 환각] 리눅스 커널 7.x/8.x는 존재하지 않는 가상 버전 환각입니다 (현재 리눅스 커널은 6.x 유지).",
+                        fix_hint="공식 출시된 Linux 6.x 커널 버전을 명시하십시오."
+                    ))
+
+        return violations
+
+
+class StockMarketsTheoryRule(BaseRule):
+    """증시 / 매크로 / 금융 이론 정합성 검증 규칙 (Gate 11 - stock, markets)"""
+
+    rule_id = "G11_STOCK_MARKETS_THEORY_INTEGRITY"
+    gate_id = "GATE_11"
+    gate_name = "도메인별 이론 정합성 및 수치 환각 차단 관문"
+    description = "연준 순유동성 공식 (WALCL - TGA - ON RRP), 미국 SEC 공시 양식 (Form 10-K, 10-Q, 13F) 정합성 검증"
+    platforms = None
+    default_severity = "REJECT"
+
+    def check(self, ctx: RuleContext) -> List[Violation]:
+        violations: List[Violation] = []
+        for idx, line in enumerate(ctx.lines, start=1):
+            s_line = line.strip()
+            if s_line.startswith("```") or not s_line:
+                continue
+
+            clean_line = re.sub(r"[*_`]", "", line)
+            clean_line = re.sub(r"</?[a-zA-Z0-9]+[^>]*>", "", clean_line)
+
+            # 1. 연준 순유동성 TGA 가산 오류
+            if re.search(r"(?:연준\s*순유동성|Fed\s*Net\s*Liquidity|Net\s*Liquidity).*?(?:총자산|WALCL|Total\s*Assets)\s*\+\s*(?:TGA|재무부\s*일반계정)", line) or re.search(r"(?:WALCL|총자산)\s*\+\s*TGA\b", line) or re.search(r"(?:WALCL|총자산)\s*\+\s*TGA\b", clean_line):
+                violations.append(Violation(
+                    gate_id=self.gate_id,
+                    gate_name=self.gate_name,
+                    rule_id="G11_STOCK_FED_LIQUIDITY_ADD_TGA",
+                    severity=self.default_severity,
+                    line_number=idx,
+                    snippet=line.strip()[:100],
+                    message="[연준 순유동성 공식 오류] TGA(재무부 일반계정)는 연준 부채 항목으로 상업은행 지준(Reserve)을 흡수하므로 순유동성 산출 시 마이너스(-)로 차감해야 합니다. 더할(+) 수 없습니다.",
+                    fix_hint="공식을 'Fed Net Liquidity = WALCL - TGA - ON RRP'로 정정하십시오."
+                ))
+
+            # 2. 연준 순유동성 역레포 가산 오류
+            if re.search(r"(?:연준\s*순유동성|Fed\s*Net\s*Liquidity|Net\s*Liquidity).*?(?:총자산|WALCL|Total\s*Assets)\s*\+\s*(?:ON\s*RRP|RRP|역레포)", line) or re.search(r"(?:WALCL|총자산)\s*\+\s*(?:ON\s*RRP|RRP|역레포)", line) or re.search(r"(?:WALCL|총자산)\s*\+\s*(?:ON\s*RRP|RRP|역레포)", clean_line):
+                violations.append(Violation(
+                    gate_id=self.gate_id,
+                    gate_name=self.gate_name,
+                    rule_id="G11_STOCK_FED_LIQUIDITY_ADD_RRP",
+                    severity=self.default_severity,
+                    line_number=idx,
+                    snippet=line.strip()[:100],
+                    message="[연준 순유동성 공식 오류] 역레포(ON RRP)는 연준이 시중 잉여 자금을 흡수하는 창구이므로 순유동성 산출 시 반드시 차감(-)해야 합니다.",
+                    fix_hint="공식을 'WALCL - TGA - ON RRP'로 바로잡으십시오."
+                ))
+
+            # 3. Form 10-K 연간 vs 10-Q 분기 혼동
+            if re.search(r"(?:Form\s*10-K|10-K).*?(?:분기\s*보고서|분기별\s*공시|Quarterly\s*Report)", line) or re.search(r"(?:Form\s*10-K|10-K).*?(?:분기\s*보고서|분기별\s*공시|Quarterly\s*Report)", clean_line):
+                if not ("10-Q" in line and ("연간" in line or "Annual" in line)):
+                    violations.append(Violation(
+                        gate_id=self.gate_id,
+                        gate_name=self.gate_name,
+                        rule_id="G11_STOCK_SEC_10K_CONFUSION",
+                        severity=self.default_severity,
+                        line_number=idx,
+                        snippet=line.strip()[:100],
+                        message="[SEC 공시 양식 혼동] Form 10-K는 연간 사업보고서(Annual Report)입니다. 분기 보고서는 Form 10-Q입니다.",
+                        fix_hint="Form 10-K를 '연간 사업보고서(Annual Report)'로 바로잡으십시오."
+                    ))
+
+        return violations

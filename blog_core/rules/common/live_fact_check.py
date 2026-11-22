@@ -478,10 +478,10 @@ class AntiStaleAndHallucinationRule(BaseRule):
                     fix_hint="현재 운영 시점인 2026년 기준으로 최신 실측 데이터를 반영하여 서술하십시오."
                 ))
 
-            # 역사적 리브랜딩 설명 문맥(예: '과거 KINDEX에서 ACE로 리브랜딩', '구 KBSTAR')은 허용
+            # 역사적 리브랜딩 설명 문맥(예: '과거 KINDEX에서 ACE로 리브랜딩', '구 KBSTAR', '구 ARIRANG')은 허용
             is_historical_rebranding = bool(
                 re.search(
-                    r"(?:과거\s*(?:KINDEX|KBSTAR)|(?:구\s*|\(구\s*)(?:KINDEX|KBSTAR)|(?:KINDEX|KBSTAR)\s*(?:에서|이|가)?\s*(?:ACE|RISE)로|리브랜딩|rebrand)",
+                    r"(?:과거\s*(?:KINDEX|KBSTAR|ARIRANG)|(?:구\s*|\(구\s*)(?:KINDEX|KBSTAR|ARIRANG)|(?:KINDEX|KBSTAR|ARIRANG)\s*(?:에서|이|가)?\s*(?:ACE|RISE|PLUS)로|리브랜딩|rebrand)",
                     line,
                     re.IGNORECASE,
                 )
@@ -514,6 +514,20 @@ class AntiStaleAndHallucinationRule(BaseRule):
                     snippet=line[:100],
                     message="[소멸된 브랜드 환각] 'KBSTAR'는 2024년 7월 KB자산운용에 의해 'RISE'로 전면 리브랜딩되었습니다. 2026년 현재 상품에 KBSTAR를 사용하는 것은 과거 기억 의존 오류입니다.",
                     fix_hint="'KBSTAR'를 현재 공식 명칭인 'RISE'로 수정하십시오."
+                ))
+
+            # 3-2. 리브랜딩으로 소멸된 구형 ETF 브랜드 환각: ARIRANG
+            # 2024년 7월 한화자산운용이 'PLUS'로 전면 변경
+            if not is_historical_rebranding and re.search(r"(?<![A-Za-z0-9])ARIRANG(?![A-Za-z0-9])", line):
+                violations.append(Violation(
+                    gate_id=self.gate_id,
+                    gate_name=self.gate_name,
+                    rule_id=self.rule_id,
+                    severity=self.default_severity,
+                    line_number=idx,
+                    snippet=line[:100],
+                    message="[소멸된 브랜드 환각] 'ARIRANG'은 2024년 7월 한화자산운용에 의해 'PLUS'로 전면 리브랜딩되었습니다. 2026년 현재 상품에 ARIRANG을 사용하는 것은 과거 기억 의존 오류입니다.",
+                    fix_hint="'ARIRANG'을 현재 공식 명칭인 'PLUS'로 수정하십시오."
                 ))
 
             # 4. 크레디트 스위스(Credit Suisse) 독립 은행 환각 (2023년 UBS 인수 합병)

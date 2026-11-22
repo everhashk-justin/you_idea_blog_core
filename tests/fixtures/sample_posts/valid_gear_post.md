@@ -2,6 +2,10 @@
 title: "인볼류트 치형 곡선과 기어 전위 계수의 기하학적 원리"
 series: "정밀 기계공학 메커니즘"
 tags: "gear, mechanical, engineering"
+fact_check_sources:
+  - "ISO/IEC 21771"
+  - "https://www.iso.org"
+verification_date: "2026-11-22"
 ---
 
 # 인볼류트 치형 곡선과 기어 전위 계수의 기하학적 원리
@@ -29,3 +33,7 @@ $$\text{inv}(\alpha) = \tan \alpha - \alpha$$
 ## 3. 정밀 기어 감속기 설계 시 고려사항
 
 로봇 구동 관절에 사용되는 하모닉 드라이브나 사이클로이드 감속기 역시 이러한 치형 곡선의 정밀한 최적화를 바탕으로 제작됩니다. 백래시(Backlash)를 최소화하면서도 윤활유 유막 형성을 유지할 수 있는 최적의 틈새 설계를 병행해야 장기 내구성을 확보할 수 있습니다.
+
+---
+
+[출처: ISO/IEC 21771 (https://www.iso.org)]

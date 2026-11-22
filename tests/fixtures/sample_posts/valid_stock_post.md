@@ -2,6 +2,10 @@
 title: "미국 국채 금리와 연준 순유동성 상관관계 분석"
 category: "글로벌 매크로 & 증시"
 tags: "매크로, 연준, 유동성, 금리"
+fact_check_sources:
+  - "Federal Reserve H.4.1"
+  - "https://www.federalreserve.gov"
+verification_date: "2026-11-22"
 ---
 
 # 미국 국채 금리와 연준 순유동성 상관관계 분석
@@ -25,6 +29,10 @@ $$\text{Net Liquidity} = \text{Fed Total Assets} - (\text{TGA} + \text{RRP})$$
 ## 3. 리스크 관리와 포트폴리오 헤지 전략
 
 변동성 지수(VIX)와 하이일드 스프레드가 안정적인 범위를 유지하는 한 유동성 환경은 우호적으로 평가할 수 있습니다. 그러나 유가 급등이나 공급망 충격으로 인플레이션 리바운드가 발생할 경우 연준의 양적긴축(QT) 속도가 지속되어 시장 유동성이 제약될 수 있습니다.
+
+---
+
+[출처: Federal Reserve H.4.1 (https://www.federalreserve.gov)]
 
 ---
 

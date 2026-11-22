@@ -113,7 +113,8 @@ class RuleRegistry:
         # 게이트 ID 및 룰 ID 순으로 안정적 정렬
         gate_sort_order = {
             "GATE_0": 0, "GATE_1": 1, "GATE_2": 2, "GATE_3": 3,
-            "GATE_4": 4, "GATE_5": 5, "GATE_6": 6, "GATE_7": 7, "GATE_8": 8, "GATE_9": 9
+            "GATE_4": 4, "GATE_5": 5, "GATE_6": 6, "GATE_7": 7, "GATE_8": 8, "GATE_9": 9,
+            "GATE_10": 10, "GATE_11": 11, "GATE_12": 12
         }
         return sorted(
             matched,

@@ -38,7 +38,8 @@ class FrontmatterRequiredRule(BaseRule):
             required_keys = ["title", "tags", "category"]
 
         for k in required_keys:
-            if k not in ctx.fm_data or not ctx.fm_data[k].strip():
+            val = ctx.fm_data.get(k)
+            if val is None or (isinstance(val, str) and not val.strip()) or (isinstance(val, list) and len(val) == 0):
                 violations.append(Violation(
                     gate_id=self.gate_id,
                     gate_name=self.gate_name,
